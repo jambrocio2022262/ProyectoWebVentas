@@ -1,0 +1,49 @@
+else if(menu.equals("Proveedor")){
+
+    switch(accion){
+        case "Listar":
+                List listaProveedor = proveedorDAO.listar();
+                request.setAttribute("proveedor", listaProveedor);
+            break;
+        
+        case "Agregar":
+                String nombrePro = request.getParameter("txtNombreProveedor");
+                String direccion = request.getParameter("txtDireccion");
+                String telefono = request.getParameter("txtTelefono"); 
+                proveedor.setNombreProveedor(nombrePro);
+                proveedor.setDireccion(direccion);
+                proveedor.setTelefono(telefono);
+                proveedorDAO.agregar(proveedor);
+                request.getRequestDispatcher("Controlador?menu=Proveedor&accion=listar").forward(request, response);
+            break;
+        
+        case "Eliminar":
+                codProveedor = Integer.parseInt(request.getParameter("idProveedor"));
+                proveedorDAO.eliminar(codProveedor);
+                request.getRequestDispatcher("Controlador?menu=Proveedor&accion=listar").forward(request, response);
+            break;
+
+        case "Editar":
+                codProveedor = Integer.parseInt(request.getParameter("idProveedor"));
+                Proveedor p = proveedorDAO.listarCodigoProveedor(codProveedor);
+                request.setAttribute("proveedor", p);
+                request.getRequestDispatcher("Controlador?menu=Proveedor&accion=listar").forward(request, response);
+            break;
+        
+        case "Actualizar":
+                String nombrePro = request.getParameter("txtNombreProveedor");
+                String direccion = request.getParameter("txtDireccion");
+                String telefono = request.getParameter("txtTelefono"); 
+                proveedor.setNombreProveedor(nombrePro);
+                proveedor.setDireccion(direccion);
+                proveedor.setTelefono(telefono);
+                proveedor.setIdProveedor(codProveedor);
+                proveedorDAO.actualizar(proveedor);
+                request.getRequestDispatcher("Controlador?menu=Proveedor&accion=listar").forward(request, response);
+            break;
+
+    }
+
+        request.getRequestDispatcher("Proveedor.jsp").forward(request, response);
+
+}
